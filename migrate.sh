@@ -81,8 +81,12 @@ redis-cli \
   -p ${to[port]} \
   -a ${to[password]}
 
-echo ""
+RC=$?
 echo "Finished redis Migration with RC: $?"
+if [[ ${RC} -eq 0 ]]; then
+  echo "MIGRATION SUCCESSFULL"
+else
+  echo "MIGRATION FAILED"
 
 while true ; do
   echo "This App can now be deleted"
