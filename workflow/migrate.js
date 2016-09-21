@@ -3,7 +3,6 @@ const cf = require('push2cloud-cf-adapter');
 const WF = require('push2cloud-workflow-utils');
 const CFWF = require('push2cloud-cf-workflows');
 const init = CFWF.init;
-const debug = require('debug')('migrate-redis');
 
 const waterfall = WF.waterfall;
 const map = WF.map;
@@ -24,11 +23,11 @@ const migrate = (deploymentConfig, api, log) =>
       cb(null, _.reduce(
         ctx.migration.oldServices
       , (serviceBindings, service) => {
-          return _.concat(serviceBindings, _.filter(
-              ctx.current.serviceBindings
-            , (serviceBinding) => service.name === serviceBinding.service
-          ))
-        }
+        return _.concat(serviceBindings, _.filter(
+            ctx.current.serviceBindings
+          , (serviceBinding) => service.name === serviceBinding.service
+        ));
+      }
       , []));
     }, null, 'migration.oldServiceBindings')
 
@@ -36,9 +35,9 @@ const migrate = (deploymentConfig, api, log) =>
       var newServices = _.map(services, (service) => {
         service.newName = service.name;
         service.name = `${service.name}-new`;
-        return service
-      })
-      cb(null, newServices)
+        return service;
+      });
+      cb(null, newServices);
     }, 'migration.oldServices', 'migration.newServices')
 
 
@@ -116,7 +115,7 @@ const migrate = (deploymentConfig, api, log) =>
     , step(log('renaming old services'))
     , step((services, cb) => cb(null, _.map(services, (service) => {
       service.newName = `${service.name}-old`;
-      return service
+      return service;
     })), 'migration.oldServices', 'migration.oldServices')
     , map(api.updateServiceInstance, 'migration.oldServices')
     , step((ctx, cb) => setTimeout(cb, 5000))
