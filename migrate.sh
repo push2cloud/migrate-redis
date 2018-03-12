@@ -26,13 +26,16 @@ fi
 declare -A  from
 declare -A  to
 
-from[host]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${fromService}\" ) | .credentials.host" | tr -d '"')
-from[password]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${fromService}\" ) | .credentials.password" | tr -d '"')
-from[port]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${fromService}\" ) | .credentials.port" | tr -d '"')
+from[service_type_name]=${OLD_SERVICE_TYPE_NAME:-redis}
+to[service_type_name]=${NEW_SERVICE_TYPE_NAME:-redis}
 
-to[host]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${toService}\" ) | .credentials.host" | tr -d '"')
-to[password]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${toService}\" ) | .credentials.password" | tr -d '"')
-to[port]=$( echo "${VCAP_SERVICES}" | jq ".redis[] | select( .name == \"${toService}\" ) | .credentials.port" | tr -d '"')
+from[host]=$( echo "${VCAP_SERVICES}" | jq ".\"${from[service_type_name]}\"[] | select( .name == \"${fromService}\" ) | .credentials.host" | tr -d '"')
+from[password]=$( echo "${VCAP_SERVICES}" | jq ".\"${from[service_type_name]}\"[] | select( .name == \"${fromService}\" ) | .credentials.password" | tr -d '"')
+from[port]=$( echo "${VCAP_SERVICES}" | jq ".\"${from[service_type_name]}\"[] | select( .name == \"${fromService}\" ) | .credentials.port" | tr -d '"')
+
+to[host]=$( echo "${VCAP_SERVICES}" | jq ".\"${to[service_type_name]}\"[] | select( .name == \"${toService}\" ) | .credentials.host" | tr -d '"')
+to[password]=$( echo "${VCAP_SERVICES}" | jq ".\"${to[service_type_name]}\"[] | select( .name == \"${toService}\" ) | .credentials.password" | tr -d '"')
+to[port]=$( echo "${VCAP_SERVICES}" | jq ".\"${to[service_type_name]}\"[] | select( .name == \"${toService}\" ) | .credentials.port" | tr -d '"')
 
 if [[ -n ${DEBUG} ]] ; then
   echo "DEBUG: from[host]:     ${from[host]}"
