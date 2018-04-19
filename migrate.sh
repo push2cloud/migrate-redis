@@ -64,7 +64,7 @@ echo ""
 
 if [[ -n ${DEBUG} ]] ; then
 echo "Going to execute the following command:
-redis-dump \
+unbuffer redis-dump \
   -h ${from[host]} \
   -p ${from[port]} \
   -a ${from[password]} | \
@@ -75,7 +75,7 @@ redis-cli \
 "
 fi
 
-redis-dump \
+unbuffer redis-dump \
   -h ${from[host]} \
   -p ${from[port]} \
   -a ${from[password]} | \
