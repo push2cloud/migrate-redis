@@ -75,14 +75,16 @@ redis-cli \
 "
 fi
 
+rm -f /tmp/redis.dump
 redis-dump \
   -h ${from[host]} \
   -p ${from[port]} \
-  -a ${from[password]} | \
-redis-cli \
+  -a ${from[password]} > /tmp/redis.dump
+cat /tmp/redis.dump | redis-cli \
   -h ${to[host]} \
   -p ${to[port]} \
   -a ${to[password]}
+rm -f /tmp/redis.dump
 
 RC=$?
 echo "Finished redis Migration with RC: $?"
