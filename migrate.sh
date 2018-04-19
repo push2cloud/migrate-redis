@@ -84,9 +84,17 @@ redis-cli \
   -p ${to[port]} \
   -a ${to[password]}
 
+sourceDb="$(redis-cli -h ${from[host]} -p ${from[port]} -a ${from[password]} DBSIZE)"
+targetDb="$(redis-cli -h ${to[host]} -p ${to[port]} -a ${to[password]} DBSIZE)"
+dbsizesame=0
+
+if [ "$sourceDb" != "$targetDb" ]; then
+  dbsizesame=1
+fi
+
 RC=$?
 echo "Finished redis Migration with RC: $?"
-if [[ ${RC} -eq 0 ]]; then
+if [[ ${RC} -eq 0 && ${dbsizesame} -eq 0 ]]; then
   echo "MIGRATION SUCCESSFULL"
 else
   echo "MIGRATION FAILED"
