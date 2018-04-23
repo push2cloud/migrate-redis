@@ -52,7 +52,7 @@ const migrate = (deploymentConfig, api, log) =>
           health_check_type: 'none',
           diego: true,
           enable_ssh: true,
-          dockerImage: 'push2cloud/migrate-redis:1.2.1',
+          dockerImage: 'push2cloud/migrate-redis:1.2.2',
           messages: [
             'MIGRATION SUCCESSFULL'
           ],

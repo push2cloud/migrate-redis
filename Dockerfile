@@ -1,6 +1,6 @@
 FROM mhart/alpine-node:8.10.0
 
-RUN apk add --no-cache jq bash redis && \
+RUN apk add --no-cache jq bash redis expect && \
     rm -f /etc/redis.conf \
           /etc/logrotate.d/redis \
           /etc/init.d/redis \
