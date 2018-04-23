@@ -1,16 +1,13 @@
-FROM mhart/alpine-node:8.10.0
+FROM node:8.11.1
 
-RUN apk add --no-cache jq bash redis expect && \
-    rm -f /etc/redis.conf \
-          /etc/logrotate.d/redis \
-          /etc/init.d/redis \
-          /etc/conf.d/redis \
-          /usr/bin/redis-benchmark \
-          /usr/bin/redis-sentinel \
-          /usr/bin/redis-server \
-          /usr/bin/redis-check-aof \
-          /usr/bin/redis-check-rdb \
-          /usr/share/licenses/redis/COPYING && \
+RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
+    echo "deb-src http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
+    wget https://www.dotdeb.org/dotdeb.gpg && \
+    apt-key add dotdeb.gpg && \
+    rm dotdeb.gpg && \
+    apt-get update && \
+    apt-get install -y jq bash redis-tools && \
+    rm -rf /var/lib/apt/lists/* && \
     npm install -g redis-dump
 
 COPY ./migrate.sh /migrate.sh

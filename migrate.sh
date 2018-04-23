@@ -64,22 +64,24 @@ echo ""
 
 if [[ -n ${DEBUG} ]] ; then
 echo "Going to execute the following command:
-unbuffer redis-dump \
+redis-dump \
   -h ${from[host]} \
   -p ${from[port]} \
-  -a ${from[password]} | \
-redis-cli \
+  -a ${from[password]} \
+  > ./redis.dump
+cat ./redis.dump | redis-cli \
   -h ${to[host]} \
   -p ${to[port]} \
   -a ${to[password]} \
 "
 fi
 
-unbuffer redis-dump \
+redis-dump \
   -h ${from[host]} \
   -p ${from[port]} \
-  -a ${from[password]} | \
-redis-cli \
+  -a ${from[password]} \
+  > ./redis.dump
+cat redis.dump | redis-cli \
   -h ${to[host]} \
   -p ${to[port]} \
   -a ${to[password]}

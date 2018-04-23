@@ -46,13 +46,13 @@ const migrate = (deploymentConfig, api, log) =>
       cb(null, _.map(services, (service) => {
         return {
           name: `migrate-${service.name}`,
-          disk_quota: '256M',
+          disk_quota: '2G',
           memory: '256M',
           instances: 1,
           health_check_type: 'none',
           diego: true,
           enable_ssh: true,
-          dockerImage: 'push2cloud/migrate-redis:1.2.2',
+          dockerImage: 'push2cloud/migrate-redis:1.4.0',
           messages: [
             'MIGRATION SUCCESSFULL'
           ],
