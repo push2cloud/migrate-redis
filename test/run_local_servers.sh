@@ -8,7 +8,7 @@ exit () {
 
 
 
-redis-server --port 7000 --requirepass 'foobar' --dir ./test/7000 &
+redis-server --port 7000 --requirepass 'foobar' --dir ./test/7000 --rename-command 'info' '_info' &
 PID7000=$?
 redis-server --port 7001 --requirepass 'foobar' --dir ./test/7001 &
 PID7001=$?

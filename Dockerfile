@@ -8,7 +8,7 @@ RUN echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list &&
     apt-get update && \
     apt-get install -y jq bash redis-tools && \
     rm -rf /var/lib/apt/lists/* && \
-    npm install -g redis-command-stream
+    npm install -g redis-command-stream-fork
 
 COPY ./migrate.sh /migrate.sh
 
