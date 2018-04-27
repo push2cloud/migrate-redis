@@ -76,15 +76,17 @@ cat ./redis.dump | redis-cli \
 "
 fi
 
-redis-dump \
+redis-stream \
   -h ${from[host]} \
   -p ${from[port]} \
   -a ${from[password]} \
-  > ./redis.dump
-cat redis.dump | redis-cli \
+  --flushdb \
+  --pipe | \
+redis-cli \
   -h ${to[host]} \
   -p ${to[port]} \
-  -a ${to[password]}
+  -a ${to[password]} \
+  --pipe
 
 sourceDb="$(redis-cli -h ${from[host]} -p ${from[port]} -a ${from[password]} DBSIZE)"
 targetDb="$(redis-cli -h ${to[host]} -p ${to[port]} -a ${to[password]} DBSIZE)"
