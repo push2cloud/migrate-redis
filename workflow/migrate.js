@@ -46,7 +46,7 @@ const migrate = (deploymentConfig, api, log) =>
       cb(null, _.map(services, (service) => {
         return {
           name: `migrate-${service.name}`,
-          disk: '2G',
+          disk: '1G',
           memory: '256M',
           instances: 1,
           healthCheckType: 'process',
