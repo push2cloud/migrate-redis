@@ -64,15 +64,17 @@ echo ""
 
 if [[ -n ${DEBUG} ]] ; then
 echo "Going to execute the following command:
-redis-dump \
+redis-stream \
   -h ${from[host]} \
   -p ${from[port]} \
   -a ${from[password]} \
-  > ./redis.dump
-cat ./redis.dump | redis-cli \
+  --flushdb \
+  --pipe | \
+redis-cli \
   -h ${to[host]} \
   -p ${to[port]} \
   -a ${to[password]} \
+  --pipe
 "
 fi
 
