@@ -64,6 +64,13 @@ echo ""
 
 if [[ -n ${DEBUG} ]] ; then
 echo "Going to execute the following command:
+
+redis-cli \
+  -h ${to[host]} \
+  -p ${to[port]} \
+  -a ${to[password]} \
+  flushall
+
 redis-stream \
   -h ${from[host]} \
   -p ${from[port]} \
@@ -77,6 +84,12 @@ redis-cli \
   --pipe
 "
 fi
+
+redis-cli \
+  -h ${to[host]} \
+  -p ${to[port]} \
+  -a ${to[password]} \
+  flushall
 
 redis-stream \
   -h ${from[host]} \
