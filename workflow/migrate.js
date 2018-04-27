@@ -46,19 +46,20 @@ const migrate = (deploymentConfig, api, log) =>
       cb(null, _.map(services, (service) => {
         return {
           name: `migrate-${service.name}`,
-          disk: '2G',
+          disk: '1G',
           memory: '256M',
           instances: 1,
-          health_check_type: 'none',
+          health_check_type: 'process',
           diego: true,
           enable_ssh: true,
-          dockerImage: 'push2cloud/migrate-redis:2.0.1',
+          dockerImage: 'push2cloud/migrate-redis:2.1.0',
           messages: [
             'MIGRATION SUCCESSFULL'
           ],
           failMessages: [
             'MIGRATION FAILED'
-          ]
+          ],
+          startTimeout: 6000
         };
       }));
     }, 'migration.oldServices', 'migration.apps')
